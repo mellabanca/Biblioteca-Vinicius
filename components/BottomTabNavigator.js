@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
 import TransactionScreen from "../screens/Transaction";
@@ -11,6 +12,7 @@ var tab = createBottomTabNavigator();
 export default class BottomTabNavigator extends Component {
     render(){
       return(
+        <SafeAreaProvider>
         <NavigationContainer>
           <tab.Navigator
           screenOptions={({ route })=>({
@@ -34,7 +36,7 @@ export default class BottomTabNavigator extends Component {
               activeTintColor: "black",
               inactiveTintColor: "#FFFFFF",
               style: {
-                height: 130,
+                height: 90,
                 borderTopWidth: 0,
                 backgroundColor: "#5653d4"
               },
@@ -44,10 +46,10 @@ export default class BottomTabNavigator extends Component {
               },
               labelPosition: "beside-icon",
               tabStyle: {
-                marginTop: 25,
+                marginTop: 5,
                 marginLeft: 10,
                 marginRight: 10,
-                borderRadius: 30,
+                borderRadius: 20,
                 borderWidth: 2,
                 alignItems: "center",
                 justifyContent: "center",
@@ -59,6 +61,7 @@ export default class BottomTabNavigator extends Component {
             <tab.Screen name = "Pesquisa" component={SearchScreen}/>
           </tab.Navigator>
         </NavigationContainer>
+        </SafeAreaProvider>
       )
     }
 }
