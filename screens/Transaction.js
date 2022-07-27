@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, ImageBackground, Image } from "react-native";
 import * as Permissions from "expo-permissions";
 import { BarCodeScanner } from "expo-barcode-scanner";
+import db from "../config";
 
 const bgImage = require("../assets/background2.png");
 const appIcon = require("../assets/appIcon.png");
@@ -50,6 +51,29 @@ export default class TransactionScreen extends Component {
     }
   };
 
+  handleTransaction = () => {
+    var { bookId } = this.state;
+    db.collection("books")
+      .doc(bookId)
+      .get()
+      .then(doc =>{
+        var book = doc.data();
+        if(book.is_book_available){
+          this.initiateBookIssue();
+        } else {
+          this.initiateBookReturn();
+        }
+      })
+  }
+
+  initiateBookIssue = () => {
+    console.log("Livro retirado pelo aluno!");
+  }
+
+  initiateBookReturn = () => {
+    console.log("Livro devolvido à biblioteca!");
+  }
+
   render() {
     const { bookId, studentId, domState, hasCameraPermissions, scannedData, scanned } = this.state;
     if (domState !== "normal") {
@@ -97,6 +121,10 @@ export default class TransactionScreen extends Component {
               <Text style={styles.scanButtonText}>Digitalizar</Text>
               </TouchableOpacity>
           </View>
+          <TouchableOpacity style={[styles.button,{marginTop: 25}]}
+                            onPress={this.handleTransaction}>
+            <Text style={styles.buttonText}>Enviar</Text>
+          </TouchableOpacity>
         </View>
         </ImageBackground>
       </View>
